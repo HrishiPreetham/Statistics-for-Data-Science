@@ -1,0 +1,25 @@
+from bs4 import BeautifulSoup as bs
+import requests
+link="https://www.amazon.in/Samsung-Galaxy-Prime-Light-128GB/dp/B0BD3V985M/ref=sr_1_1_sspa?crid=3DOMW883V78J7&keywords=samsung%2Bm32&qid=1668443249&qu=eyJxc2MiOiIzLjcxIiwicXNhIjoiMy4zNiIsInFzcCI6IjIuOTcifQ%3D%3D&sprefix=sam%2Caps%2C260&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1"
+page=requests.get(link)
+soup=bs(page.content,'html.parser')
+print(soup.prettify())
+name=soup.find_all('span',class_='a-profile-name')
+cust_name=[]
+for i in range(0,len(name)):
+    cust_name.append(name[i].get_text())
+title=soup.find_all('a',class_='review-title-content')
+print(title)
+review=[]
+for i in range(0,len(title)):
+    review.append(title[i].get_text())
+print(review)
+review[:]=[titles.lstrip('\n') for titles in review]
+print(review[:])
+review[:]=[titles.rstrip('\n') for titles in review]
+print(review[:])
+import pandas as pd
+df=pd.DataFrame()
+df['Customer Name']=cust_name
+df['Review Title']=review
+df
